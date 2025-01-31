@@ -10,6 +10,7 @@ app.use(cors())
 
 app.use(router);
 
+// middleware que verifica os erros e faz uma tratativa
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof Error) {
     // Se for uma instancia do tipo error

@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  price       Decimal @db.Decimal(10, 2)
+  description String
+  banner      String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  orderItems OrderItem[]
+}
+
+// Novo pedido (quando abrir uma mesa)
+model Order {
+  id     String  @id @default(uuid())
+  table  Int
+  status Boolean
+  draft  Boolean // modo rascunho, pois só vai para a cozinha quando o garçom finalizar o pedido
+  name   String?
+
+  orderItems OrderItem[]
+}
+
+// Pedido específico da mesa (vários pedidos de uma mesma mesa)
+model OrderItem {
+  id     String @id @default(uuid())
+  amount Int
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+}
