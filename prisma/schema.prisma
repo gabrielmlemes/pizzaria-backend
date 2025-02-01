@@ -33,6 +33,8 @@ model Category {
   updated_at DateTime @updatedAt
 
   products Product[]
+
+  @@map("category")
 }
 
 model Product {
@@ -48,28 +50,34 @@ model Product {
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
 
-  orderItems OrderItem[]
+  items Item[]
+
+  @@map("products")
 }
 
 // Novo pedido (quando abrir uma mesa)
 model Order {
   id     String  @id @default(uuid())
   table  Int
-  status Boolean
-  draft  Boolean // modo rascunho, pois só vai para a cozinha quando o garçom finalizar o pedido
-  name   String?
+  status Boolean @default(false) // o pedido sempre vai começar como false, pois ainda não foi concluido o pedido 
+  draft  Boolean @default(true) // modo rascunho, pois só vai para a cozinha quando o garçom finalizar o pedido
+  name   String? // nome do cliente (opcional)
 
-  orderItems OrderItem[]
+  items Item[]
+
+  @@map("orders")
 }
 
-// Pedido específico da mesa (vários pedidos de uma mesma mesa)
-model OrderItem {
+// Itens do pedido da mesa (Item -> Order)
+model Item {
   id     String @id @default(uuid())
-  amount Int
+  amount Int // quantidade do mesmo item
 
   productId String
   product   Product @relation(fields: [productId], references: [id])
 
   orderId String
   order   Order  @relation(fields: [orderId], references: [id])
+
+  @@map("items")
 }
