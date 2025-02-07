@@ -4,15 +4,17 @@ import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailUserController } from "./controllers/user/DetailUserCotroller";
 import { isAthenticated } from "./middlewares/isAuthenticated";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
+import { ListCategoryController } from "./controllers/category/ListCategoryController";
 
-const router = Router()
+const router = Router();
 
 // ROTAS USER
-router.post('/users', new CreateUserController().handle);
-router.post('/session', new AuthUserController().handle);
-router.get('/me', isAthenticated, new DetailUserController().handle);
+router.post("/users", new CreateUserController().handle);
+router.post("/session", new AuthUserController().handle);
+router.get("/me", isAthenticated, new DetailUserController().handle);
 
 // ROTAS CATEGORY
-router.post('/category', isAthenticated, new CreateCategoryController().handle);
+router.post("/category", isAthenticated, new CreateCategoryController().handle);
+router.get("/category", isAthenticated, new ListCategoryController().handle);
 
-export {router}
+export { router };
