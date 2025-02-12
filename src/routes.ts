@@ -9,14 +9,16 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { CreateProductController } from "./controllers/product/CreateProductController";
 
-import uploadConfig from './config/multer'
+import uploadConfig from "./config/multer";
 import { ListByCategoryController } from "./controllers/product/ListByCategoryController";
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { DeleteOrderController } from "./controllers/order/DeleteOrderController";
+import { AddItemOrderController } from "./controllers/order/AddItemOrderController";
+import { RemoveItemOrderController } from "./controllers/order/RemoveItemOrderController";
 
 const router = Router();
 
-const upload = multer(uploadConfig.upload("./tmp"))
+const upload = multer(uploadConfig.upload("./tmp"));
 
 // ROTAS USER
 router.post("/users", new CreateUserController().handle); // criar usuário
@@ -28,11 +30,22 @@ router.post("/category", isAthenticated, new CreateCategoryController().handle);
 router.get("/category", isAthenticated, new ListCategoryController().handle); // listar categorias
 
 // ROTAS PRODUCT
-router.post('/product', isAthenticated, upload.single('file'), new CreateProductController().handle); // criar produto
-router.get('/category/product', isAthenticated, new ListByCategoryController().handle); // listar produtos por categoria
+router.post(
+  "/product",
+  isAthenticated,
+  upload.single("file"),
+  new CreateProductController().handle
+); // criar produto
+router.get(
+  "/category/product",
+  isAthenticated,
+  new ListByCategoryController().handle
+); // listar produtos por categoria
 
 // ROTAS ORDER
-router.post('/order', isAthenticated, new CreateOrderController().handle); // criar pedido
-router.delete('/order', isAthenticated, new DeleteOrderController().handle)
+router.post("/order", isAthenticated, new CreateOrderController().handle); // criar pedido
+router.delete("/order", isAthenticated, new DeleteOrderController().handle);
+router.post("/order/item", isAthenticated, new AddItemOrderController().handle); // adicionar item ao pedido
+router.delete('/order/item', isAthenticated, new RemoveItemOrderController().handle); // remover item do pedido
 
 export { router };
