@@ -8,7 +8,7 @@ class ListOrdersService {
             status: false
         },
         orderBy: {
-            
+            created_at: "desc"
         }
         
     });
