@@ -57,13 +57,15 @@ model Product {
 
 // Novo pedido (quando abrir uma mesa)
 model Order {
-  id     String  @id @default(uuid())
-  table  Int
-  status Boolean @default(false) // o pedido sempre vai começar como false, pois ainda não foi concluido o pedido 
-  draft  Boolean @default(true) // modo rascunho, pois só vai para a cozinha quando o garçom finalizar o pedido
-  name   String? // nome do cliente (opcional)
-
-  items Item[]
+  id         String   @id @default(uuid())
+  table      Int
+  status     Boolean  @default(false) // o pedido sempre vai começar como false, pois ainda não foi concluido o pedido 
+  draft      Boolean  @default(true) // modo rascunho, pois só vai para a cozinha quando o garçom finalizar o pedido
+  name       String? // nome do cliente (opcional)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  
+  items      Item[]
 
   @@map("orders")
 }
