@@ -17,6 +17,7 @@ import { AddItemOrderController } from "./controllers/order/AddItemOrderControll
 import { RemoveItemOrderController } from "./controllers/order/RemoveItemOrderController";
 import { SendOrderCotroller } from "./controllers/order/SendOrderCotroller";
 import { ListOrdersController } from "./controllers/order/ListOrdersController";
+import { DetailOrderController } from "./controllers/order/DetailOrderController";
 
 const router = Router();
 
@@ -51,5 +52,6 @@ router.post("/order/item", isAthenticated, new AddItemOrderController().handle);
 router.delete('/order/item', isAthenticated, new RemoveItemOrderController().handle); // remover item do pedido
 router.put('/order/send', isAthenticated, new SendOrderCotroller().handle); // enviar pedido
 router.get('/orders', isAthenticated, new ListOrdersController().handle); // listar pedidos
+router.get('/orders/detail', isAthenticated, new DetailOrderController().handle) // detalha o pedido
 
 export { router };
