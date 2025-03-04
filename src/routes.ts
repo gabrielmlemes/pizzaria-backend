@@ -34,10 +34,15 @@ router.post("/category", isAthenticated, new CreateCategoryController().handle);
 router.get("/category", isAthenticated, new ListCategoryController().handle); // listar categorias
 
 // ROTAS PRODUCT
+// router.post(
+//   "/product",
+//   isAthenticated,
+//   upload.single("file"),
+//   new CreateProductController().handle
+// ); // criar produto
 router.post(
   "/product",
   isAthenticated,
-  upload.single("file"),
   new CreateProductController().handle
 ); // criar produto
 router.get(
