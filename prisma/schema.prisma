@@ -42,7 +42,7 @@ model Product {
   name        String
   price       Decimal @db.Decimal(10, 2)
   description String
-  banner      String
+  banner      String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

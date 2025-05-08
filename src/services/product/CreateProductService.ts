@@ -4,7 +4,7 @@ interface CreateProductServiceProps {
   name: string;
   description: string;
   price: string;
-  banner: string;
+  banner?: string;
   category_id: string;
 }
 

@@ -16,9 +16,9 @@ class CreateProductController {
 
     const createProductService = new CreateProductService();
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-      throw new Error("error upload file");
-    } else {
+    let banner: string | undefined; 
+
+    if (req.files && req.files["file"]) {
       const file: UploadedFile = req.files["file"];
 
       const resultFile: UploadApiResponse = await new Promise(
@@ -36,15 +36,18 @@ class CreateProductController {
         }
       );
 
-      const product = await createProductService.execute({
-        name,
-        price,
-        description,
-        banner: resultFile.url,
-        category_id,
-      });
-      return res.json();
+      banner = resultFile.url;
     }
+
+    const product = await createProductService.execute({
+      name,
+      price,
+      description,
+      banner,
+      category_id,
+    });
+
+    return res.json(product); 
   }
 }
 
